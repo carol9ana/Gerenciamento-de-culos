@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import FormularioOculos from './components/FormularioOculos';
+import TabelaOculos from './components/TabelaOculos';
+import { getLS, setLS } from './utils/storage.js';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
+  const [oculos, setOculos] = useState([]);
+  const [editando, setEditando] = useState(null);
+
+  useEffect(() => {
+    setOculos(getLS('oculos') || []);
+  }, []);
+
+  const salvar = (novo) => {
+    let lista;
+    if (editando) {
+      lista = oculos.map((item) => (item.id === editando.id ? { ...novo, id: editando.id } : item));
+    } else {
+      lista = [...oculos, { ...novo, id: Date.now() }];
+    }
+    setOculos(lista);
+    setLS('oculos', lista);
+    setEditando(null);
+  };
+
+  const excluir = (id) => {
+    const filtrado = oculos.filter((item) => item.id !== id);
+    setOculos(filtrado);
+    setLS('oculos', filtrado);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <main className="container my-5">
+        <h2 className="mb-4 text-center">Cadastro de Óculos</h2>
+        <div className="row">
+          <div className="col-md-5 mb-4">
+            <FormularioOculos onSalvar={salvar} oculosEditando={editando} />
+          </div>
+          <div className="col-md-7">
+            <TabelaOculos oculos={oculos} onEditar={setEditando} onExcluir={excluir} />
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
 
