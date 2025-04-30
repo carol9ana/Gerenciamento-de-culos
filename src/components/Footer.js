@@ -7,7 +7,7 @@ function Footer() {
     React.createElement(
       'div',
       { className: 'container' },
-      React.createElement('p', { className: 'mb-0' }, `© ${new Date().getFullYear()} Óptica Visão Clara. Todos os direitos reservados.`)
+      React.createElement('p', { className: 'mb-0' }, `© ${new Date().getFullYear()} Óptica Carol. Todos os direitos reservados.`)
     )
   );
 }

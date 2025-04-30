@@ -13,12 +13,21 @@ function App() {
     setOculos(getLS('oculos') || []);
   }, []);
 
+  const gerarProximoId = () => {
+    if (oculos.length === 0) return 1;
+    const ids = oculos.map((item) => item.id);
+    return Math.max(...ids) + 1;
+  };
+
   const salvar = (novo) => {
     let lista;
     if (editando) {
-      lista = oculos.map((item) => (item.id === editando.id ? { ...novo, id: editando.id } : item));
+      lista = oculos.map((item) =>
+        item.id === editando.id ? { ...novo, id: editando.id } : item
+      );
     } else {
-      lista = [...oculos, { ...novo, id: Date.now() }];
+      const novoId = gerarProximoId();
+      lista = [...oculos, { ...novo, id: novoId }];
     }
     setOculos(lista);
     setLS('oculos', lista);
@@ -41,7 +50,11 @@ function App() {
             <FormularioOculos onSalvar={salvar} oculosEditando={editando} />
           </div>
           <div className="col-md-7">
-            <TabelaOculos oculos={oculos} onEditar={setEditando} onExcluir={excluir} />
+            <TabelaOculos
+              oculos={oculos}
+              onEditar={setEditando}
+              onExcluir={excluir}
+            />
           </div>
         </div>
       </main>

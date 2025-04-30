@@ -13,7 +13,7 @@ function TabelaOculos({ oculos, onEditar, onExcluir }) {
         React.createElement(
           'tr',
           null,
-          ...['Foto', 'Doença', 'Grau Esq.', 'Grau Dir.', 'Armação', 'Ações'].map((col) =>
+          ...['ID','Foto', 'Doença', 'Grau Esq.', 'Grau Dir.', 'Armação', 'Ações'].map((col) =>
             React.createElement('th', { key: col }, col)
           )
         )
@@ -25,6 +25,7 @@ function TabelaOculos({ oculos, onEditar, onExcluir }) {
           React.createElement(
             'tr',
             { key: item.id },
+            React.createElement('td', null, item.id),
             React.createElement('td', null,
               item.foto
                 ? React.createElement('img', {
